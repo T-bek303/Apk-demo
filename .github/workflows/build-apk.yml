@@ -22,12 +22,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept Android SDK Licenses
+      - name: Accept All Android SDK Licenses
         run: |
-          yes | sdkmanager --licenses || true
+          mkdir -p "$ANDROID_HOME/licenses" || true
+          echo "89338d0d9f18181af18b60f2186c5177e0d7248e" > "$ANDROID_HOME/licenses/android-sdk-license"
+          echo "d56f51854795309e07a18f2207b3b923f9e4248b" >> "$ANDROID_HOME/licenses/android-sdk-license"
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_HOME/licenses/android-sdk-license"
+          echo "84831b9409646a53fe443057e84e5a9bc0e22e1e" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+          echo "601085b94cd77f0b54ff864069570991500085d7" > "$ANDROID_HOME/licenses/android-googletv-license"
+          echo "33b6a2b64925e14245c814341047e6765e79a8d8" > "$ANDROID_HOME/licenses/google-gdk-license"
+          echo "d975f751698a77b662f1254ddbeed3901e176f4a" > "$ANDROID_HOME/licenses/intel-android-extra-license"
+          echo "e9acab5b5fbb560a72cfa4e233b49e307337d158" > "$ANDROID_HOME/licenses/mips-android-sysimage-license"
+          yes | sdkmanager --licenses || yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
